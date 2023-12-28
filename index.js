@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require("express");
 
 const app = express();
-
 const port = process.env.port || 3000;
 
 app.get("/frutas", (req, res) => {
@@ -10,11 +10,11 @@ app.get("/frutas", (req, res) => {
     const mysql = require("mysql2/promise");
     // create the connection
     const connection = await mysql.createConnection({
-      host: process.env.host || "localhost", //"aws.connect.psdb.cloud",
+      host: process.env.host,
       port: 3306,
       database: "nubitamix",
-      user: process.env.user || "root",
-      password: process.env.password || "rootpass",
+      user: process.env.user,
+      password: process.env.password,
       ssl: {
         rejectUnauthorized: false,
       },
