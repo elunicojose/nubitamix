@@ -10,14 +10,21 @@ app.get("/frutas", (req, res) => {
     const mysql = require("mysql2/promise");
     // create the connection
     const connection = await mysql.createConnection({
-      host: "aws.connect.psdb.cloud",
-      user: "4n4ir9hc80qkalkmqbxu",
+      host: process.env.host || "localhost", //"aws.connect.psdb.cloud",
+      port: 3306,
       database: "nubitamix",
-      password: "pscale_pw_KpkJ1gcLO7m9feNQq2uAnFkZwGjlXYNnM0PicpRDVb0",
+      user: process.env.user || "root",
+      password: process.env.password || "rootpass",
       ssl: {
         rejectUnauthorized: false,
       },
     });
+
+    connection.connect(function (err) {
+      if (err) throw err;
+      console.log("Connected!");
+    });
+
     // query database
     const [rows, fields] = await connection.execute("SELECT * FROM `frutas`");
     res.send(rows);
@@ -29,3 +36,5 @@ app.get("/frutas", (req, res) => {
 app.listen(port, () => {
   console.log(`app running on port ${port}`);
 });
+
+module.exports = app;
