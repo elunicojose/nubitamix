@@ -1,0 +1,49 @@
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "yourusername",
+    password: "yourpassword",
+    database: "mydb"
+});
+
+// function definition
+function runQuery (con, sqlQuery) {
+
+    return new Promise((resolve, reject) => {
+        console.log("START");
+        if(con){
+            con.connect(function (err) {
+                if (err) throw err;
+            });
+
+            if (sqlQuery) {
+                con.query(sqlQuery, function (error, result, fields) {
+                    connection.end(); // end connection
+                    if (error) {
+                        throw error;
+                    } else {
+                        return resolve(result);
+                    }
+                });
+            } else {
+                connection.end(); // end connection
+                // code:  handle the case 
+            }
+        } else {
+            // code: handle the case
+        }
+
+    });
+
+}
+
+var sqlQuery = 'SELECT * FROM tableName';
+
+// function call and pass the connection and sql query you want to execute
+var p  = runQuery(con, sqlQuery); 
+p.then((data)=>{ // promise and callback function
+    console.log('data :', data); // result
+    console.log("END");
+
+});
